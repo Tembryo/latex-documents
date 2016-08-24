@@ -45,6 +45,8 @@
 \let\oldsection\section
 \renewcommand\section{\clearpage\oldsection}
 
+\usepackage{enumitem}
+\setlist{nolistsep}
 \renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}{\scshape #1}: }
 
 \usepackage{amsmath}
@@ -85,6 +87,7 @@
 
 \doublespacing
 \setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7\baselineskip}%
 
 \section{Introduction}
 
@@ -100,9 +103,10 @@ Our objective over the next 18 months is to build a compelling AI coaching produ
 
 \section{Funding}
 
-A seed round of \pounds350k will support a team of 2 founders, a front-end engineer, a back-end engineer and a marketing manager for 18 months. This gives sufficient time to build the features required to start generating revenue and begin to estimate important parameters for the business model, such as the conversion rate to paying customers, churn rate and cost of acquisition.\\
+A seed round of \pounds350k will support a team of 2 founders, a front-end engineer, a back-end engineer and a marketing manager for 18 months. This gives sufficient time to build the features required to start generating revenue and begin to estimate important parameters for the business model, such as the conversion rate to paying customers, churn rate and cost of acquisition.
 
-The funding will be used as follows:\\
+The funding will be used as follows:
+
 \begin{itemize}
 \item \pounds240k on Salaries (70\%):
 \begin{itemize}
@@ -119,7 +123,7 @@ The funding will be used as follows:\\
 
 \section{Product}
 
-The table below sets out the planned three phases of product development. At each phase the users will be given access to some portion of new features for free whilst the rest reserved for paying subscribers. In the rest of this subsection we describe the features more detail and then in the next section we describe the technical background.
+The table below sets out the planned three phases of product development. In each phase all users will be given access to some portion of new features for free, whilst the rest are reserved for paying subscribers. In the rest of this subsection we describe the features in more detail, and in the next section we give an overview of the involved technology.
 
 \begin{center}
 \onehalfspacing
@@ -140,23 +144,23 @@ The table below sets out the planned three phases of product development. At eac
 
 \subsection{Current State}
 
-The prototype website currently consists of 2 main features: a performance rating feature and a match review feature.\\ 
+The prototype website currently consists of 2 main features: a performance rating feature and a match review feature.
 
-The performance rating feature solves a problem with the current player rating system provided by the game developers. In Dota 2, each player is given a MMR (Match Making Ranking), which is a single number that ranks their skill level using the same method as an Elo score in chess. Rankings such as MMR are a feature that is common to all eSports because developers need a method of matching up similarly skilled player to create evenly matched teams. The problem is that because MMR is the aggregation of all the win/loss outcomes over your career as a player it does not give any information about your performance in a particular match. This limitation of the MMR in Dota 2 has been a topic of discussion amongst players on forums and is frequently cited by our users as one of the things they like best about the page.\\
+The performance rating feature solves a problem with the current player rating system provided by the game developers. In Dota 2, each player is given a MMR (Match Making Ranking), which is a single number that ranks their skill level using the same method as an Elo score in chess. Rankings such as MMR are a feature that is common to all eSports because developers need a method of matching up similarly skilled player to create evenly matched teams. The problem is that because MMR is the aggregation of all the win/loss outcomes over your career as a player it does not give any information about your performance in a particular match. This limitation of the MMR in Dota 2 has been a topic of discussion amongst players on forums and is frequently cited by our users as one of the things they like best about the page.
 
 The second main feature is the match review page. When a player selects one of their matches from their match list, we provide a simple animation of the match that shows the ten players moving around the game map. At present this visualisation provides limited information to the user: timing of kills, timing of fights, where `creep' deaths occur, but users report that they find it useful for reminding themselves what happened in a match.
 
 \subsection{Phase 1} 
 
-In Phase 1 (first 6 months) we will further develop our event based summary of matches i.e., a segmentation of the match into a sequence of events that capture at a high level what is happening in the match at each point in time. For example, an event in a Dota 2 match might be ``farming creeps'', or ``attacking opponents tower''. These events will be displayed on the visualisation of the match along with a text summary containing information relevant to the event. For example for a ``farming creeps'' event the text will display information such as the number of last hits achieved or the amount of gold earned. The event summary will eventually form a crucial component in the automated coaching features that come in subsequent phases, and so the design of the user interface will need to be tested carefully with users to ensure that it is intuitive to use.\\
+In Phase 1 (first 6 months) we will further develop our event based summary of matches i.e., a segmentation of the match into a sequence of events that capture at a high level what is happening in the match at each point in time. For example, an event in a Dota 2 match might be ``farming creeps'', or ``attacking opponents tower''. These events will be displayed on the visualisation of the match along with a text summary containing information relevant to the event. For example for a ``farming creeps'' event the text will display information such as the number of last hits achieved or the amount of gold earned. The event summary will eventually form a crucial component in the automated coaching features that come in subsequent phases, and so the design of the user interface will need to be tested carefully with users to ensure that it is intuitive to use.
 
-We will leverage our replay file dataset to provide statistics on how well the players performed at each event compared to other players. Returning to the `creep farming' example, we will provide stats on how efficiently the player farmed i.e., you were in top 25\% of players for gold per minute farmed for this period of the match. The events in the visualisation will be colour coded according to how well they performed to help them focus on particular events where they perform less well.\\
+We will leverage our replay file dataset to provide statistics on how well the players performed at each event compared to other players. Returning to the `creep farming' example, we will provide stats on how efficiently the player farmed i.e., you were in top 25\% of players for gold per minute farmed for this period of the match. The events in the visualisation will be colour coded according to how well they performed to help them focus on particular events where they perform less well.
 
 We will also use the dataset we have collected to construct models of isolated parts of the game mechanics, and use Artificial Intelligence approaches, such as action planning or genetic algorithms, to compute alternative sequences of actions that a player could take in order to improve their play. As an example use case, this approach will allow us to suggest precise sequences of hero abilities that a player could use in order to reduce the amount of time it takes them to achieve certain objectives within the game such as `farming". This is a level of feedback that far exceeds anything that is currently available for eSports players and should be a tipping point where our conversion rate from free to paid users improves to between 2-5\%.
 
 \subsection{Phase 2}
 
-In Phase 2 (6th to 12th month) we will advance the Artificial Intelligence technology to move from optimisation of specific subproblems, which are picked using human knowledge about the game, towards a system that analyses the game as a whole. Combining the methods developed in Phase 1 with ideas from reinforcement learning and machine learning will result in a system that relates situations and actions to the outcome of the game. This will improve the coaching capabilities and should evene allow the Artificial Intelligence to discover options overlooked by expert players. A predecessor with similar algorithmic ideas is AlphaGO, a recent milestone of AI technology developed by Deep Mind, which was the first program to beat a world-class human player in the game of Go.\\
+In Phase 2 (6th to 12th month) we will advance the Artificial Intelligence technology to move from optimisation of specific subproblems, which are picked using human knowledge about the game, towards a system that analyses the game as a whole. Combining the methods developed in Phase 1 with ideas from reinforcement learning and machine learning will result in a system that relates situations and actions to the outcome of the game. This will improve the coaching capabilities and should evene allow the Artificial Intelligence to discover options overlooked by expert players. A predecessor with similar algorithmic ideas is AlphaGO, a recent milestone of AI technology developed by Deep Mind, which was the first program to beat a world-class human player in the game of Go.
 
 Driven by the Artificial Intelligence system, we will generate an evaluation of gameplay to the users that actually tells them precisely what leads them to winning or losing matches. From here we will support users in picking personalised performance metrics to guide their improvement. For example, a user might wish to focus on improving their last hitting performance, because mistakes in this kind of situation get highlighted by the system as particularly important. From here we provide an interface for them to set targets for the average percentage of last hits achieved. We will then track their performance in subsequence matches and send a weekly, personalised report on summarising how well they performed, along with links to articles and video content on improving that aspect of their game.
 
@@ -166,7 +170,7 @@ In Phase 3 (12th to 18th month) we will generate short video clips of the user p
 
 \section{Technical}
 
-Realising the goal of an engaging web application that provides automated coaching to millions of players requires the development of a diverse mix of software that has to be highly scalable. We employ a service oriented architecture, splitting the the different tasks that have to be performed in the backend into multiple small programs that perform very specific tasks. This allows individual scaling of the software, depending on load and computational requirements. Another benefit is isolation of development, letting us implement and update different parts of the software with clear system boundaries.\\
+Realising the goal of an engaging web application that provides automated coaching to millions of players requires the development of a diverse mix of software that has to be highly scalable. We employ a service oriented architecture, splitting the the different tasks that have to be performed in the backend into multiple small programs that perform very specific tasks. This allows individual scaling of the software, depending on load and computational requirements. Another benefit is isolation of development, letting us implement and update different parts of the software with clear system boundaries.
 
 For example, match analysis takes considerably more time than match download. As compensation we might run ten times more instances of the Analysis service than the Download service. The Analysis service might also be written in a different language than the Download service, use some machine learning libraries, and be modified a lot more frequently. Due to the isolated architecture a developer can work on the Analysis service without knowing anything about other services.
 
@@ -176,27 +180,27 @@ The server software runs on common virtual servers, which are available from a m
 
 \subsection{Deployment/Orchestration}
 
-All backend software is containerised using Docker to specify the full environment of a program at development. Each service runs in a separate container, and services can be scaled up by deploying multiple instances of the same container. The instances are distributed over the pool of available servers, communicating over a central message passing system and sharing data in the main database.\\ 
+All backend software is containerised using Docker to specify the full environment of a program at development. Each service runs in a separate container, and services can be scaled up by deploying multiple instances of the same container. The instances are distributed over the pool of available servers, communicating over a central message passing system and sharing data in the main database.
 
 Currently the set of servers is small enough to manage the container instances by hand. In the next step, we will integrate Docker Swarm to ease the orchestration and prepare for further scaling. Later on we will add additional systems to monitor system load and automatically adjust the available computational capacity.
 
 \subsection{Backend}
 
-The backend consists of multiple services performing different jobs using various different technologies. The database service stores all persistent structured data. Currently we use the proven open-source database PostgreSQL. To prepare this system for further growth, we will evaluate the available options and either scale the database using the sharding extension Citrus, or switch to an inherently distributed database like Kassandra.\\
+The backend consists of multiple services performing different jobs using various different technologies. The database service stores all persistent structured data. Currently we use the proven open-source database PostgreSQL. To prepare this system for further growth, we will evaluate the available options and either scale the database using the sharding extension Citrus, or switch to an inherently distributed database like Kassandra.
 
-Currently communication between services is performed over the notification feature of the PostgreSQL database. Further into development this will be moved out into a specialised system, possibly using the open-source message broker RabbitMQ.\\ 
+Currently communication between services is performed over the notification feature of the PostgreSQL database. Further into development this will be moved out into a specialised system, possibly using the open-source message broker RabbitMQ.
 
-The website is served by a nginx instance, to allowing for HTTP load balancing. The webserver itself is implemented in Javascript using Node.js/Express, with data for the interactive elements of the webpage exposed through a REST API. In another development step we will move the data transfer to websockets, which will improve efficiency, responsiveness, and separation between static web pages and data API.\\
+The website is served by a nginx instance, to allowing for HTTP load balancing. The webserver itself is implemented in Javascript using Node.js/Express, with data for the interactive elements of the webpage exposed through a REST API. In another development step we will move the data transfer to websockets, which will improve efficiency, responsiveness, and separation between static web pages and data API.
 
-Most server process logic is implemented using Javascript/Node.js, an accessible setup for new backend developers with a large available ecosystem of software packages. Examples for this are the Retrieve service, which handles the connection to the Steam network to access match data, and the Download service that pulls replay files from Steam servers and adds them to our dataset.\\ 
+Most server process logic is implemented using Javascript/Node.js, an accessible setup for new backend developers with a large available ecosystem of software packages. Examples for this are the Retrieve service, which handles the connection to the Steam network to access match data, and the Download service that pulls replay files from Steam servers and adds them to our dataset.
 
-The Analysis service is mostly written in other languages, with the replay extraction done in Java using the Clarity parser, and subsequent analysis written in Python. The machine learning model for scoring matches uses the Python interface of the machine learning library TensorFlow, which is actively developed by Google and published as open source.\\
+The Analysis service is mostly written in other languages, with the replay extraction done in Java using the Clarity parser, and subsequent analysis written in Python. The machine learning model for scoring matches uses the Python interface of the machine learning library TensorFlow, which is actively developed by Google and published as open source.
 
-The new artificial intelligence algorithms developed during phase 1 and 2 will be developed in C/C++, as they will be very computationally expensive. Alongside this we will update the C++ replay parser Alice for use in the next version of the analysis system. This promises a drastic speedup of the analysis process, which is the main computational cost at the moment. \\ 
+The new artificial intelligence algorithms developed during phase 1 and 2 will be developed in C/C++, as they will be very computationally expensive. Alongside this we will update the C++ replay parser Alice for use in the next version of the analysis system. This promises a drastic speedup of the analysis process, which is the main computational cost at the moment. 
 
 \subsection{Frontend}
 
-The frontend consists of a website that displays the coaching information to the user in a clean, usable, and interactive way. To build this responsive page we use HTML5, CSS and Javascript for display in common browsers. The layout is designed for both desktop and mobile, to make the page usable on smartphones as well.\\
+The frontend consists of a website that displays the coaching information to the user in a clean, usable, and interactive way. To build this responsive page we use HTML5, CSS and Javascript for display in common browsers. The layout is designed for both desktop and mobile, to make the page usable on smartphones as well.
 
 The current website uses JQuery and D3 for interactive visualisations. In the next development steps this base code will be transitioned into a full MVC framework like Backbone.js, with Socket.io as library for data communication over websockets. This will make the website more responsive, consistent and increase the extensibility of the code. In later development steps some parts of the visualisation will be ported to a WebGL based graphics engine for faster rendering and better responsivity.
 
@@ -280,17 +284,19 @@ The current website uses JQuery and D3 for interactive visualisations. In the ne
 \item Team Target: 20-30\% monthly growth in users numbers, monthly churn rate of 10\% or lower and \pounds20k MRR from the Dota 2 product. Collection of at least 2000 emails per month for advanced access to the League of Legends and Counter-Strike products.
 \end{itemize}
 
-\subsection[{July 2018 - Future}]{July 2018 0 - Future}
+\subsection[{July 2018 - Future}]{July 2018 - Future}
 \begin{itemize}
 \item Main Objective: Expand into other eSports (League of Legends, Counter-Strike) and provide game developers with an easy to integrate layer that helps them monetise coaching in their games.
+\begin{samepage}
 \item Team (14 in total):  
 \begin{itemize}
 \item (2) Cofounders, 
 \item (7) Engineering: Dev ops, Front-end developer, Back-end developer, League Lead developer, League Junior developer, CS:GO Lead developer, CS:GO Junior developer
 \item (2) Research Team: 2 x AI researchers
 \item (2) Marketing: Marketing Manager, Junior Marketer
-\item (1) Business Development: Business Development Manager\\
+\item (1) Business Development: Business Development Manager
 \end{itemize}
+\end{samepage}
 \end{itemize}
 
 \subsection{Vision in 5 Years} 
@@ -325,24 +331,23 @@ For example, Lol-coaching.com is a one-to-one coaching platform for League of Le
 \subsection{Direct Competitors}
 
 \begin{description}
- \item [Dojo Madness (www.dojomadness.com)] Berlin based startup founded by Jens Hilgers, currently has approximately 20 employees. Plan to apply machine learning and big data techniques to help players improve at their game. Focussed for time being on mobile apps that function as second screens whilst you play. They have a product called LolSumo which provides basic tips whilst playing League of legends - decent traction with 70k DAU. Recently raised \$4.5m seed round.
+ \item [Dojo Madness (www.dojomadness.com)] Berlin based startup founded by Jens Hilgers, currently has approximately 20 employees. Plan to apply machine learning and big data techniques to help players improve at their game. Focussed for the time being on mobile apps that function as second screens whilst you play. They have a product called LolSumo which provides basic tips whilst playing League of Legends - decent traction with 70k DAU. Recently raised \$4.5m seed round.
 
- \item [Eblur (www.eblur.co.uk)] Part of the EF6 cohort, initially planned to build a video clips site for eSports, but then switched to also build an AI coach for Dota. Plan to provide the coaching in real time by scraping pixels from the user's screen. Their product requires users to download software to the do the analysis on their PC. Have struggled to gain users as Dota players fear the may be banned by the game's developer for using the software (see reddit threads: \cite{Eblur}).
+ \item [Eblur (www.eblur.co.uk)] Part of the EF6 cohort, initially planned to build a video clips site for eSports, but then switched to also build an AI coach for Dota. Plan to provide the coaching in real time by scraping pixels from the user's screen. Their product requires users to download software to the do the analysis on their PC. Have struggled to gain users as Dota players fear they may be banned by the game's developer for using the software (see Reddit thread: \cite{Eblur}).
 \end{description}
 
-\pagebreak
 \subsection{Comparison with Tembryo}
  
 Our platform will provide three main advantages over existing one-to-one coaching solutions: 
-
 \begin{description}
     \item [Quality] Our platform will make use AI and a large data set of replay files to provide tips to users that are grounded in data, for example ``taking action X leads to 65\% win rate'', as compared to subjective advice from a live coach.
     \item [Price] By automating the process we are able to provide the service at \$5-10 per month compared to \$10-25 per hour.
     \item [Convenience] Users don't have to schedule lessons in advance as they would with a live coach. They can get tips whenever they want, in as much detail as they want.
 \end{description}
 
+DojoMadness has - after one tech demo two years ago - not shown progress at building products for Dota 2 and confirmed in talks earlier this year that their team is busy developing the existing apps for League of Legends. They also have expressed their preference for a different approch to game analysis, which involves crowdsourcing human players' analysis instead of AI optimisation, which we believe to be inferior.
 
-Our main advantage over DojoMadness and Eblur is that the technology we have developed for analysing replay files means that users do not have to install any additional software. In addition the Eblur approach of inferring the game state from pixels on the user's screen adds another layer of technical difficulty to the problem of building an AI coach, and so far has limited them to providing basic insights based on the 2D minimap on the Dota screen, it is not clear how they plan to go beyond this to interpreting 3D scenes. 
+Our main advantage over Eblur (and partly DojoMadness) is that the technology we have developeddoes not require the user to not have to install any additional software. In addition the Eblur approach of inferring the game state from pixels on the user's screen adds another layer of technical difficulty to the problem of building an AI coach, and so far has limited them to providing basic insights based on the 2D minimap on the Dota screen, it is not clear how they plan to go beyond this to interpreting 3D scenes. 
 
 \begin{thebibliography}{10}
 
