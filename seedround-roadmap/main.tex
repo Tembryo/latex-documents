@@ -1,5 +1,5 @@
 
-\documentclass[12pt]{report} % use larger type; default would be 10pt
+\documentclass[12pt]{article} % use larger type; default would be 10pt
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 
@@ -17,84 +17,93 @@
 \usepackage{mdframed}
 \usepackage[toc,page]{appendix}
 \usepackage{setspace}
-\doublespacing
+
 \usepackage{caption}
 \usepackage{pdflscape}
-\usepackage{url}
+
 %\usepackage{subcaption}
+
+\widowpenalty10000
+\clubpenalty10000
 
 
 %%% SECTION TITLE APPEARANCE
 \usepackage{sectsty}
-\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+\allsectionsfont{\sffamily\mdseries\scshape} % (See the fntguide.pdf for font help)
 % (This matches ConTeXt defaults)
 
 %%% ToC (table of contents) APPEARANCE
-\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[notlof,notlot]{tocbibind} % Put the bibliography in the ToC
 \usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+\renewcommand{\cftsecfont}{\sffamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\sffamily\mdseries\upshape} % No bold!
 
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{definition}{Definition}[section]
-\newtheorem{proof}{Proof}[section]
-\newtheorem{proposition}{Proposition}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{remark}{Remark}[section]
-\newtheorem{example}{Example}[section]
+%\usepackage{titlesec}
+%\titleclass{\section}{top}
+%\newcommand\sectionbreak{\clearpage}
+
+\let\oldsection\section
+\renewcommand\section{\clearpage\oldsection}
+
+\renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}{\scshape #1}: }
 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{changepage}
-	
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+    linktocpage
+}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+
+
 \begin{document}
 \begin{titlepage}
 
 
     \centering
-    \vspace{5cm}
-  {\huge Tembryo: 18 Month Roadmap}\\
-  \vspace{2.5cm}
+
+    \vspace*{4cm}
+  {\scshape\huge Tembryo: 18 Month Roadmap}\\
+  
 	 %\includegraphics[width=0.4\columnwidth]{oxford_crest.eps}\\
-	 \vspace{2.5cm}
-	 {\Large Private and Confidential}\\
-	 {\Large August 2016}
-	 \vfill
+\vspace*{\fill}
+	 {\scshape\huge\Large Private and Confidential\\
+	 August 2016}
+
 \end{titlepage}
 
 
-\newpage
-
-\newgeometry{left=3cm,bottom=4cm}
-
-
-\restoregeometry
-
-\newpage
-
 \tableofcontents{}
-\newpage
- 
+
+
+\doublespacing
 \setlength{\parindent}{0pt}
 
 \section{Introduction}
 
 Our objective over the next 18 months is to build a compelling AI coaching product for a single game (Dota 2) and position ourselves to raise a Series A so that we can expand into multiple eSports. This report outlines our strategy for getting there and includes:
-\begin{enumerate}  
+\begin{itemize}  
 \item Funding: How much funding we need and how it will be used
 \item Product: The stages of development for the product 
 \item Technical: Supporting material on system architecture
 \item Team: Who we need to hire
 \item Timeline: How the product and team fit together to achieve the required milestones.
 \item Market: Analysis of existing products and competitors
-\end{enumerate}
+\end{itemize}
 
 \section{Funding}
 
 A seed round of \pounds350k will support a team of 2 founders, a front-end engineer, a back-end engineer and a marketing manager for 18 months. This gives sufficient time to build the features required to start generating revenue and begin to estimate important parameters for the business model, such as the conversion rate to paying customers, churn rate and cost of acquisition.\\
 
 The funding will be used as follows:\\
-\begin{enumerate}
+\begin{itemize}
 \item \pounds240k on Salaries (70\%):
 \begin{itemize}
 \item 2 x Founders: each \pounds25k per year
@@ -106,13 +115,14 @@ The funding will be used as follows:\\
 \item \pounds15k on Marketing (4\%)
 \item \pounds25k on Server Costs (6\%)
 \item \pounds35k Reserved (10\%)
-\end{enumerate}
+\end{itemize}
 
 \section{Product}
 
 The table below sets out the planned three phases of product development. At each phase the users will be given access to some portion of new features for free whilst the rest reserved for paying subscribers. In the rest of this subsection we describe the features more detail and then in the next section we describe the technical background.
 
 \begin{center}
+\onehalfspacing
     \begin{tabular}{ | l | p{6cm} | p{6cm} |}
     \hline
     Phase & Features  & User Perspective\\ \hline
@@ -120,12 +130,13 @@ The table below sets out the planned three phases of product development. At eac
  &``Allows me to see long-term trends in my play and ideas on how to improve as a player''\\  \hline
     Phase 1 & Automatic match parsing, event evaluation using statistics from the replay file dataset. AI tips for specific situations (e.g., ward placement)
  & ``A vital tool for highlighting particular mistakes in my past matches. I get information that I just can`t get anywhere else'' \\ \hline
-    Phase 2 & AI for that provides suggestions of optimal actions and strategies alongside the match review.  & Shows me how to get better and I can see from the trends in my rating that it is helping me improve significantly  \\
+    Phase 2 & AI for that provides suggestions of optimal actions and strategies alongside the match review.  & ``A tool that understands the game shows me what I need to focus on if I want to improve. I get presented alternative strategies and see how I could have done better.''  \\
     \hline
      Phase 3 & Rendered video content synchronized with coaching suggestions. Library of video content for helping players improve. & ``I get important game situations presented just as they are in game, which helps me visualise what I`m supposed to do next time I play.'' \\
     \hline
     \end{tabular}
 \end{center}
+\pagebreak
 
 \subsection{Current State}
 
@@ -141,11 +152,11 @@ In Phase 1 (first 6 months) we will further develop our event based summary of m
 
 We will leverage our replay file dataset to provide statistics on how well the players performed at each event compared to other players. Returning to the `creep farming' example, we will provide stats on how efficiently the player farmed i.e., you were in top 25\% of players for gold per minute farmed for this period of the match. The events in the visualisation will be colour coded according to how well they performed to help them focus on particular events where they perform less well.\\
 
-We will also use the dataset we have collected to construct models of isolated parts of the game mechanics, and use Artificial Intelligence approaches, such as action planning or genetic algorithms, to compute alternative sequences of actions that a player could take in order to improve their play. As an example use case, this approach will allow us suggest precise sequences of hero abilities that a player could use in order to reduce the amount of time it takes them to achieve certain objectives within the game such as `farming". This is a level of feedback that far exceeds anything that is currently available for eSports players and should be a tipping point where our conversion rate from free to paid users improves to between 2-5\%.
+We will also use the dataset we have collected to construct models of isolated parts of the game mechanics, and use Artificial Intelligence approaches, such as action planning or genetic algorithms, to compute alternative sequences of actions that a player could take in order to improve their play. As an example use case, this approach will allow us to suggest precise sequences of hero abilities that a player could use in order to reduce the amount of time it takes them to achieve certain objectives within the game such as `farming". This is a level of feedback that far exceeds anything that is currently available for eSports players and should be a tipping point where our conversion rate from free to paid users improves to between 2-5\%.
 
 \subsection{Phase 2}
 
-In Phase 2 (6th to 12th month) we will advance the Artificial Intelligence technology to move from optimisation of specific subproblems, which are picked because of human knowledge about the game, towards a system that analyses the game as a whole. Combining the methods developed in Phase 1 with ideas from reinforcement learning and machine learning will result in a system that relates situations and actions to the outcome of the game. This will improve the coaching capabilities and allow the Artificial Intelligence to even discover options overlooked by expert players. A predecessor with similar algorithmic ideas is AlphaGO, a recent milestone of AI technology developed by Deep Mind, which was the first program to beat a world-class human player in the game of Go.\\
+In Phase 2 (6th to 12th month) we will advance the Artificial Intelligence technology to move from optimisation of specific subproblems, which are picked using human knowledge about the game, towards a system that analyses the game as a whole. Combining the methods developed in Phase 1 with ideas from reinforcement learning and machine learning will result in a system that relates situations and actions to the outcome of the game. This will improve the coaching capabilities and should evene allow the Artificial Intelligence to discover options overlooked by expert players. A predecessor with similar algorithmic ideas is AlphaGO, a recent milestone of AI technology developed by Deep Mind, which was the first program to beat a world-class human player in the game of Go.\\
 
 Driven by the Artificial Intelligence system, we will generate an evaluation of gameplay to the users that actually tells them precisely what leads them to winning or losing matches. From here we will support users in picking personalised performance metrics to guide their improvement. For example, a user might wish to focus on improving their last hitting performance, because mistakes in this kind of situation get highlighted by the system as particularly important. From here we provide an interface for them to set targets for the average percentage of last hits achieved. We will then track their performance in subsequence matches and send a weekly, personalised report on summarising how well they performed, along with links to articles and video content on improving that aspect of their game.
 
@@ -177,7 +188,7 @@ Currently communication between services is performed over the notification feat
 
 The website is served by a nginx instance, to allowing for HTTP load balancing. The webserver itself is implemented in Javascript using Node.js/Express, with data for the interactive elements of the webpage exposed through a REST API. In another development step we will move the data transfer to websockets, which will improve efficiency, responsiveness, and separation between static web pages and data API.\\
 
-Custom server processes are implemented using Javascript/Node.js, an accessible setup for new backend developers with a large available ecosystem of software packages. Examples for this are the Retrieve service, which handles the connection to the Steam network to access match data, and the Download service that pulls replay files from Steam servers and adds them to our dataset.\\ 
+Most server process logic is implemented using Javascript/Node.js, an accessible setup for new backend developers with a large available ecosystem of software packages. Examples for this are the Retrieve service, which handles the connection to the Steam network to access match data, and the Download service that pulls replay files from Steam servers and adds them to our dataset.\\ 
 
 The Analysis service is mostly written in other languages, with the replay extraction done in Java using the Clarity parser, and subsequent analysis written in Python. The machine learning model for scoring matches uses the Python interface of the machine learning library TensorFlow, which is actively developed by Google and published as open source.\\
 
@@ -191,56 +202,56 @@ The current website uses JQuery and D3 for interactive visualisations. In the ne
 
 \begin{figure}[h]
                 \centering
-                \includegraphics[width=\columnwidth]{Diagram.pdf}
-           \label{fig:BigPicture}
+                \includegraphics[width=0.9\textwidth,height=0.9\textheight,keepaspectratio]{img/diagram.pdf}
+           \label{fig:tech-diagram}
+           \caption{The technology stack of our webservice. Areas for future development are highlighted.}
 \end{figure}
 
 \section{Team}
 
-CEO - continual customer development, hiring, and joint development of AI. Held accountable for the funnel and management of the team as a whole.\\ 
+\begin{description}
+    \item [CEO] Continual customer development, hiring, and joint development of AI. Held accountable for the funnel and management of the team as a whole.
+    \item [CTO] Architecture of the system, implementation of the production code for the platform and development of the AI. Held accountable for the performance of the entire tech stack.
+    \vspace{0.5cm}
+    \item [Frontend developer] Improvement of the UI and writing the HTML/CSS/JavaScript code for new features. Improving page load times by delivering data to user via web-sockets. Ideally would also have experience with D3.js. Potential candidates: Eugenio De Paulo, Daniel Seiler, Matei Rogoz.
+    \item [Backend developer]  Improvement of the scalability of the back-end and transitioning to the GCP platform. Must have experience with Kubernetes, SQL, and configuring Linux servers.
 
-CTO - Architecting the system and writing the production code for the platform as well as the development of the AI. Held accountable for the performance of the entire tech stack.\\ 
-
-Frontend developer - Improvements to the UI and writing the HTML/CSS/JavaScript code for new features. Improving page load times by delivering data to user via web-sockets. Ideally would also have experience with D3.js. Potential candidates (Eugenio De Paulo, Daniel Seiler, Matei Rogoz).\\ 
-
-Backend developer -  Improving the scalability of the back-end and transitioning to the GCP platform. Must have experience with Kubernetes, SQL, and configuring Linux servers.\\
-
-Marketing Manager - Developing a marketing strategy and generating content for the site and/or building partnerships with existing figures in the Dota community to publish content on Wisdota.com\\
-
-Web designer(s) will be hired on a contract basis when new features are added to the site and required to be integrated into the existing design. Potential candidates (Klauss Andrei)
+    \item [Marketing Manager] Development of a marketing strategy, generation of content for the site and/or building partnerships with existing figures in the Dota community to publish content on Wisdota.com
+    \item [Web designer(s)] Hired on a contract basis when new features are added to the site are required to be integrated into the existing design. Potential candidates: Klauss Andrei
+\end{description}
 
 \section{Timeline}
 
-September-December 2016 (Current State)
+\subsection[Sep.-Dec. 2016 (Current State)]{September-December 2016 (Current State)}
 \begin{itemize}
 \item Main Objective: Raise money and find suitable hires
 \item Team: 2 Cofounders 
 \item Tasks:
 \begin{itemize}
 \item CEO: Raise funding and identify candidates to hire 
-\item CTO: Begin transition towards new architecture on GCP.\\
+\item CTO: Begin transition towards new architecture on GCP.
 \end{itemize}
 \end{itemize}
 
-January - June 2017 (Phase 1)
+\subsection[Jan.-June 2017 (Phase 1)]{January-June 2017 (Phase 1)}
 \begin{itemize} 
 \item Main Objective: Deliver first paid features.
-\item Team: 2 Cofounders, Back-end Developer, Front-end Developer, (web designer on contract)
+\item Team: 2 Cofounders, Back-end Developer, Front-end Developer, (Web Designer on contract)
 \item Tasks:
 \begin{itemize} 
 \item CEO: Customer development, managing team and developing AI
 \item CTO: Event based summary of match based on segmentation of data set, automatic parsing for paying subscribers.
 \item Backend developer: improving scalability of back-end
-\item Frontend developer: improving UI and rate at which pages are served to users
+\item Frontend developer: improving UI and rate at which pages are served
 \item UI/Web design contractor: Update match review design
 \end{itemize}
-\item Team Target: achieve 15k free users and 300 paying subscribers.\\
+\item Team Target: achieve 15k free users and 300 paying subscribers.
 \end{itemize} 
 
-July - Dec 2017 (Phase 2)
-\begin{itemize} 
+\subsection[July-Dec. 2017 (Phase 2)]{July-December 2017 (Phase 2)}
+\begin{itemize}
 \item Main Objective: Develop more general AI tech and grow user base
-\item Team:  2 Cofounders, Front-end developer, Back-end developer, Marketing Manager
+\item Team: 2 Cofounders, Front-end developer, Back-end developer, Marketing Manager, (Web Designer on contract)
 \item Tasks:
 \begin{itemize}
 \item CEO: Customer development and contributing to machine learning research.
@@ -250,26 +261,26 @@ July - Dec 2017 (Phase 2)
 \item Marketing Manager: Focusing on improving virality of the product and generating content for website.
 \item UI/Web design contractor: Design of overlays for the automated coaching.
 \end{itemize}
-\item Team Target: 10-15\% monthly growth in users numbers, improvement in conversion rate from free to paid from 3\% to 5\%. Monthly churn rate of 10\% or lower.\\
+\item Team Target: 10-15\% monthly growth in users numbers, improvement in conversion rate from free to paid from 3\% to 5\%. Monthly churn rate of 10\% or lower.
 \end{itemize}
 
-Jan - June 2018 (Phase 3)
+\subsection[Jan.-June 2018 (Phase 3)]{January-June 2018 (Phase 3)}
 \begin{itemize}
-\item Main Objective: Development of video rendering capabilities, talking to investors to raise Series A and laying the groundwork to expand into other eSports (League of Legends, Counter-Strike).
-\item Team:  2 Cofounders, Front-end developer, Back-end developer, Marketing Manager
+    \item Main Objective: Talking to investors to raise Series A and laying the groundwork to expand into other eSports (League of Legends, Counter-Strike). Development of video rendering capabilities,
+\item Team:  2 Cofounders, Front-end developer, Back-end developer, Marketing Manager, (Web Ddesigner on contract)
 \item Tasks:
 \begin{itemize}
-\item CEO: Sourcing potential hires, building partnerships with developers, talking to investors to organise Series A.
-\item CTO: Developing cloud video rendering system and software for capturing packets on client side.
-\item Backend developer: Assisting CTO with building backend for video rendering
-\item Frontend developer: Incorporating the videos into the front-end and updating UI
+\item CEO: Sourcing of potential hires, building partnerships with developers, talks with investors to organise Series A.
+\item CTO: Development of cloud video rendering system and software for capturing packets on client side.
+\item Backend developer:  Implementation of parts of the video rendering backend
+\item Frontend developer: Incorporation of the videos into the front-end
 \item Marketing Manager: Focusing on building awareness and generating sign-ups for next products whilst continuing to create content for Dota project.
 \item UI/Web design contractor: Design of landing page and signup page for League of Legends and Counter-Strike.
 \end{itemize}
 \item Team Target: 20-30\% monthly growth in users numbers, monthly churn rate of 10\% or lower and \pounds20k MRR from the Dota 2 product. Collection of at least 2000 emails per month for advanced access to the League of Legends and Counter-Strike products.
 \end{itemize}
 
-July 2018 - Onwards
+\subsection[{July 2018 - Future}]{July 2018 0 - Future}
 \begin{itemize}
 \item Main Objective: Expand into other eSports (League of Legends, Counter-Strike) and provide game developers with an easy to integrate layer that helps them monetise coaching in their games.
 \item Team (14 in total):  
@@ -282,42 +293,54 @@ July 2018 - Onwards
 \end{itemize}
 \end{itemize}
 
-Vision in five years: 
+\subsection{Vision in 5 Years} 
 We are the category leader for AI coaching for 4-5 of the major eSports titles. We have expanded first to League of Legends, then CS:GO, world of tanks etc. giving us an audience close to 100M players. We've partnered with top eSports teams and the analysis is regularly used live in major tournaments. The technology in the back end is general enough to plug new games into in the space of weeks/months. We are recognised as developers of new and innovative AI methods.
 
 \section{Market Analysis}
  
 In this section we consider three categories of products that eSports players currently use to improve their play, and then give a brief overview of two other startups competing in the same space.
  
-\subsection{Video platforms}
+\subsection{Video Platforms}
  
 Over a hundred million people watch games being played online each month via video platforms such as Twitch and Youtube. One of the major motivations for watching eSports is to learn how to get better at playing by watching expert players \cite{Hamari15}. Our hypothesis is that there exists a large subset of viewers who watch Twitch and Youtube videos on eSports specifically in order to learn how to improve, but are underserved by the present offerings because the content that video platforms provide cannot be tailored to coach individual players.\\
  
-The eSports video platform market is dominated Twich.tv and Youtube?s gaming channel. Twitch.tv is a live video platform and community for gamers with more than 100 million unique users per month and was acquired by Amazon for \$970M cash after three years of development. Twitch boasts a highly engaged audience, with the average user watching 1.5 hours of videos per day \cite{Dredge}. Youtube is the well-known video sharing website, with a broad range of video categories. It recently added live streams to compete with Twitch, and games have become the No.1 category on Youtube in terms of viewership.
+The eSports video platform market is dominated by Twich.tv and Youtube's gaming channel. Twitch.tv is a live video platform and community for gamers with more than 100 million unique users per month and was acquired by Amazon for \$970M cash after three years of development. Twitch boasts a highly engaged audience, with the average user watching 1.5 hours of videos per day \cite{Dredge}. Youtube is the well-known video sharing website, with a broad range of video categories. It recently added live streams to compete with Twitch, and games have become the No.1 category on Youtube in terms of viewership.
  
-\subsection{Game statistics websites}
+\subsection{Game Statistics Websites}
  
-Statistics websites such as Dotabuff.com and Yasp.co are is widely used by eSports players who wish to improve their play. These websites provide tables of statistics from eSports matches on specific aspects of the game, such as how much gold an individual has earned per minute or how many fights they were involved in.\\
+Statistics websites such as Dotabuff.com and Yasp.co are is widely used by eSports players who wish to improve their play. These websites provide tables of statistics from eSports matches on specific aspects of the game, such as how much gold an individual has earned per minute or how many fights they were involved in.
+
+\begin{description}
+    \item [Dotabuff.com] features tables of statistics as well as articles and forums, and has over a million users. Dotabuff monetises the content through two channels: advertising, and a premium service, which grants subscribers access to more in depth statistics for the cost of \$6 per month or \$56 per year. Dotabuff uses its own hardware for the computation.
  
-Dotabuff.com features tables of statistics as well as articles and forums, and has over a million users. Dotabuff monetises the content through two channels: advertising, and a premium service, which grants subscribers access to more in depth statistics for the cost of \$6 per month or \$56 per year. Dotabuff uses its own hardware for the computation.\\
+    \item [Yasp.co] is a not-for-profit website developed by members of the Dota community and is funded via donations from users. Yasp parses replay files and calculates tables of statistics, duplicating much of the functionality of Dotabuff.com. The site has 85k signed in users, of which 26k used the site in the past two weeks. Yasp uses 15+ rented servers to parse 30k games per day.
+\end{description}
+
+\subsection{One-to-one Coaching Websites }
  
-Yasp.co is a not-for-profit website developed by members of the Dota community and is funded via donations from users. Yasp parses replay files and calculates tables of statistics, duplicating much of the functionality of Dotabuff.com. The site has 85k signed in users, of which 26k used the site in the past two weeks. Yasp uses 15+ rented servers to parse 30k games per day.
- 
-\subsection{One-to-one coaching websites }
- 
-A third category of products that eSports players currently use to improve their play is one-to-one coaching websites. These websites typically function as a platform where users can select coaches from a list of profiles that display the price per hour and some metric of experience. Using a messaging service the user can contact the coach and organise a time to have the lesson.\\
+A third category of products that eSports players currently use to improve their play is one-to-one coaching websites. These websites typically function as a platform where users can select coaches from a list of profiles that display the price per hour and some metric of experience. Using a messaging service the user can contact the coach and organise a time to have the lesson.
  
 For example, Lol-coaching.com is a one-to-one coaching platform for League of Legends and claims 40k students and 17k coaches. The company charges a 15\% fee to handle payments for lessons (though the payments themselves are handled by PayPal). Dotacoach.org is a similar platform but for Dota 2, with 200 registered coaches.
 
-\subsection{Direct competitors}
+\subsection{Direct Competitors}
 
-Dojo Madness (www.dojomadness.com) - Berlin based startup founded by Jens Hilgers, currently has approximately 20 employees. Plan to apply machine learning and big data techniques to help players improve at their game. Focussed for time being on mobile apps that function as second screens whilst you play. They have a product called LolSumo which provides basic tips whilst playing League of legends - decent traction with 70k DAU. Recently raised \$4.5m seed round.\\
+\begin{description}
+ \item [Dojo Madness (www.dojomadness.com)] Berlin based startup founded by Jens Hilgers, currently has approximately 20 employees. Plan to apply machine learning and big data techniques to help players improve at their game. Focussed for time being on mobile apps that function as second screens whilst you play. They have a product called LolSumo which provides basic tips whilst playing League of legends - decent traction with 70k DAU. Recently raised \$4.5m seed round.
 
-Eblur (www.eblur.co.uk) - part of the EF6 cohort, initially planned to build a video clips site for eSports, but then switched to also build an AI coach for Dota. Plan to provide the coaching in real time by scraping pixels from the user?s screen. Their product requires users to download software to the do the analysis on their PC. Have struggled to gain users as Dota players fear the may be banned by the game?s developer for using the software (see reddit threads: \cite{Eblur}).
+ \item [Eblur (www.eblur.co.uk)] Part of the EF6 cohort, initially planned to build a video clips site for eSports, but then switched to also build an AI coach for Dota. Plan to provide the coaching in real time by scraping pixels from the user's screen. Their product requires users to download software to the do the analysis on their PC. Have struggled to gain users as Dota players fear the may be banned by the game's developer for using the software (see reddit threads: \cite{Eblur}).
+\end{description}
 
+\pagebreak
 \subsection{Comparison with Tembryo}
  
-Our platform will provide three main advantages over existing one-to-one coaching solutions: 1) quality: our platform will make use AI and a large data set of replay files to provide tips to users that are grounded in data, for example ``taking action X leads to 65\% win rate'', as compared to subjective advice from a live coach 2) price: by automating the process we are able to provide the service at \$5-10 per month compared to \$10-25 per hour 3) convenience: users do have to schedule lessons in advance as they would with a live coach.\\ 
+Our platform will provide three main advantages over existing one-to-one coaching solutions: 
+
+\begin{description}
+    \item [Quality] Our platform will make use AI and a large data set of replay files to provide tips to users that are grounded in data, for example ``taking action X leads to 65\% win rate'', as compared to subjective advice from a live coach.
+    \item [Price] By automating the process we are able to provide the service at \$5-10 per month compared to \$10-25 per hour.
+    \item [Convenience] Users don't have to schedule lessons in advance as they would with a live coach.
+\end{description}
+
 
 Our main advantage over DojoMadness and Eblur is that the technology we have developed for analysing replay files means that users do not have to install any additional software. In addition the Eblur approach of inferring the game state from pixels on the user's screen adds another layer of technical difficulty to the problem of building an AI coach, and so far has limited them to providing basic insights based on the 2D minimap on the Dota screen, it is not clear how they plan to go beyond this to interpreting 3D scenes. 
 
